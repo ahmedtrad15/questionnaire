@@ -1,0 +1,762 @@
+<!-- 
+    SECTION QUESTIONNAIRE DIAGNOSTIC IMMO 
+    Intégration : Copier tout le code ci-dessous (Style + HTML + Script) 
+    Dépendances : Police 'Poppins' (incluse via @import)
+-->
+
+<style>
+    /* Import Font if not already on site */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    :root {
+        --dq-primary: #0c3558;
+        /* Dark Blue */
+        --dq-secondary: #fec335;
+        /* Yellow */
+        --dq-accent: #12a9af;
+        /* Teal */
+        --dq-dark: #0c3558;
+        /* Text loops back to primary dark */
+        --dq-light: #f8fafc;
+        --dq-white: #ffffff;
+        --dq-shadow: 0 10px 30px -5px rgba(12, 53, 88, 0.2);
+        --dq-glass: rgba(255, 255, 255, 0.95);
+    }
+
+    /* Scoped Isolation to avoid conflicts */
+    #digi-questionnaire-section {
+        font-family: 'Poppins', sans-serif;
+        color: var(--dq-dark);
+        box-sizing: border-box;
+    }
+
+    #digi-questionnaire-section * {
+        box-sizing: border-box;
+    }
+
+    /* Block Container */
+    .dq-section {
+        max-width: 800px;
+        margin: 0 auto;
+        background: var(--dq-glass);
+        border-radius: 24px;
+        box-shadow: var(--dq-shadow);
+        overflow: hidden;
+        position: relative;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    /* Header */
+    .dq-header {
+        background: linear-gradient(135deg, var(--dq-primary), var(--dq-accent));
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+
+    .dq-header h2 {
+        margin: 0;
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: white;
+    }
+
+    .dq-header p {
+        margin: 10px 0 0;
+        opacity: 0.9;
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Content Area */
+    .dq-content {
+        padding: 40px;
+        min-height: 400px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* Progress Bar */
+    .dq-progress-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    .dq-progress-bar {
+        height: 100%;
+        background: var(--dq-secondary);
+        width: 0%;
+        transition: width 0.4s ease;
+    }
+
+    /* Step Transitions */
+    .dq-step {
+        display: none;
+        animation: fadeIn 0.5s ease;
+    }
+
+    .dq-step.active {
+        display: block;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Questions */
+    .dq-question h3 {
+        font-size: 1.5rem;
+        margin-bottom: 25px;
+        color: var(--dq-dark);
+        text-align: center;
+        margin-top: 0;
+    }
+
+    /* Options Grid */
+    .dq-options {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    @media (min-width: 600px) {
+        .dq-options.grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    .dq-option-card {
+        background: white;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 20px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .dq-option-card:hover {
+        border-color: var(--dq-primary);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(12, 53, 88, 0.1);
+    }
+
+    .dq-option-card.selected {
+        border-color: var(--dq-primary);
+        background-color: #f0f8ff;
+        /* Light blue tint matching var(--dq-primary) hue roughly */
+        box-shadow: 0 0 0 1px var(--dq-primary) inset;
+    }
+
+    .dq-radio {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #cbd5e1;
+        border-radius: 50%;
+        flex-shrink: 0;
+        position: relative;
+    }
+
+    .dq-option-card.selected .dq-radio::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 10px;
+        height: 10px;
+        background: var(--dq-primary);
+        border-radius: 50%;
+    }
+
+    .dq-option-text {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .dq-option-title {
+        font-weight: 600;
+        color: var(--dq-dark);
+        font-size: 1.1rem;
+    }
+
+    .dq-option-desc {
+        font-size: 0.9rem;
+        color: #64748b;
+        margin-top: 4px;
+    }
+
+    /* Controls */
+    .dq-controls {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 40px;
+    }
+
+    .dq-btn {
+        padding: 12px 24px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+    }
+
+    .dq-btn-prev {
+        background: transparent;
+        color: #64748b;
+    }
+
+    .dq-btn-prev:hover {
+        color: var(--dq-dark);
+        background: #f1f5f9;
+        text-decoration: underline;
+    }
+
+    .dq-btn-next {
+        background: var(--dq-primary);
+        color: white;
+        margin-left: auto;
+        box-shadow: 0 4px 12px rgba(12, 53, 88, 0.3);
+    }
+
+    .dq-btn-next:hover {
+        background: #092a47;
+        transform: translateY(-1px);
+    }
+
+    .dq-btn-next:disabled {
+        background: #cbd5e1;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+
+    /* Result Card */
+    .dq-result-card {
+        background: linear-gradient(135deg, white, #f8fafc);
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+        border: 2px solid var(--dq-primary);
+        box-shadow: 0 10px 30px rgba(12, 53, 88, 0.15);
+    }
+
+    .dq-result-title {
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .dq-result-package {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--dq-dark);
+        margin-bottom: 5px;
+        line-height: 1.2;
+    }
+
+    .dq-result-price {
+        font-size: 3rem;
+        font-weight: 800;
+        color: var(--dq-primary);
+        margin: 20px 0;
+        text-shadow: 0 2px 10px rgba(12, 53, 88, 0.1);
+    }
+
+    .dq-features-list {
+        text-align: left;
+        margin: 20px 0;
+        padding: 0;
+        list-style: none;
+        display: inline-block;
+    }
+
+    .dq-features-list li {
+        padding: 8px 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #475569;
+    }
+
+    .dq-check-icon {
+        color: var(--dq-accent);
+        /* Teal checkmarks */
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    .dq-cta-container {
+        display: grid;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .dq-btn-cta {
+        display: block;
+        width: 100%;
+        padding: 16px;
+        text-decoration: none;
+        border-radius: 12px;
+        font-weight: 700;
+        transition: transform 0.2s;
+        text-align: center;
+    }
+
+    .dq-btn-primary {
+        background: var(--dq-secondary);
+        /* Yellow */
+        color: var(--dq-primary);
+        /* Dark Blue text for contrast on yellow */
+        box-shadow: 0 4px 15px rgba(254, 195, 53, 0.4);
+    }
+
+    .dq-btn-primary:hover {
+        transform: translateY(-2px);
+        background: #eeb01c;
+    }
+
+    .dq-btn-secondary {
+        background: white;
+        border: 2px solid var(--dq-dark);
+        color: var(--dq-dark);
+    }
+
+    .dq-btn-secondary:hover {
+        background: #f1f5f9;
+    }
+
+    .dq-btn-restart {
+        background: none;
+        border: none;
+        color: #64748b;
+        text-decoration: underline;
+        cursor: pointer;
+        margin-top: 15px;
+        font-size: 0.9rem;
+        font-family: inherit;
+        padding: 10px;
+        display: block;
+        width: 100%;
+    }
+
+    .dq-btn-restart:hover {
+        color: var(--dq-primary);
+    }
+</style>
+
+<div id="digi-questionnaire-section" class="dq-section">
+    <div class="dq-header">
+        <h2>Trouvez Votre Formation</h2>
+        <p>Répondez à quelques questions pour obtenir votre devis personnalisé</p>
+    </div>
+
+    <div class="dq-progress-container">
+        <div class="dq-progress-bar" id="dq-progress"></div>
+    </div>
+
+    <div class="dq-content">
+        <!-- Step 1: Financing -->
+        <div class="dq-step active" data-step="1">
+            <div class="dq-question">
+                <h3>Comment souhaitez-vous financer votre formation ?</h3>
+                <div class="dq-options grid" id="opt-financing">
+                    <div class="dq-option-card" data-value="perso">
+                        <div class="dq-radio"></div>
+                        <div class="dq-option-text">
+                            <span class="dq-option-title">Fonds propres / Employeur</span>
+                            <span class="dq-option-desc">Pôle Emploi, OPCO, FAFCEA ou Personnel</span>
+                        </div>
+                    </div>
+                    <div class="dq-option-card" data-value="cpf">
+                        <div class="dq-radio"></div>
+                        <div class="dq-option-text">
+                            <span class="dq-option-title">Compte Personnel de Formation (CPF)</span>
+                            <span class="dq-option-desc">Solde CPF disponible</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Format -->
+        <div class="dq-step" data-step="2">
+            <div class="dq-question">
+                <h3>Quelle méthode d'apprentissage préférez-vous ?</h3>
+                <div class="dq-options" id="opt-format">
+                    <!-- Dynamic Options -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Mentions -->
+        <div class="dq-step" data-step="3">
+            <div class="dq-question">
+                <h3>Quel périmètre d'intervention visez-vous ?</h3>
+                <div class="dq-options grid" id="opt-mentions">
+                    <div class="dq-option-card" data-value="no_mentions">
+                        <div class="dq-radio"></div>
+                        <div class="dq-option-text">
+                            <span class="dq-option-title">Résidentiel Uniquement</span>
+                            <span class="dq-option-desc">DPE & Amiante sans mentions</span>
+                        </div>
+                    </div>
+                    <div class="dq-option-card" data-value="with_mentions">
+                        <div class="dq-radio"></div>
+                        <div class="dq-option-text">
+                            <span class="dq-option-title">Tous Bâtiments (Tertiaire inclus)</span>
+                            <span class="dq-option-desc">Avec Mentions DPE & Amiante (+ de débouchés)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: SS4 Option -->
+        <div class="dq-step" data-step="4">
+            <div class="dq-question">
+                <h3>Option complémentaire</h3>
+                <div class="dq-options" id="opt-ss4">
+                    <div class="dq-option-card" data-value="no">
+                        <div class="dq-radio"></div>
+                        <div class="dq-option-text">
+                            <span class="dq-option-title">Non, merci</span>
+                        </div>
+                    </div>
+                    <div class="dq-option-card" data-value="yes">
+                        <div class="dq-radio"></div>
+                        <div class="dq-option-text">
+                            <span class="dq-option-title">Ajouter le module SS4 Opérateur</span>
+                            <span class="dq-option-desc">Formation Amiante Sous-Section 4 (+490€)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 5: Result -->
+        <div class="dq-step" data-step="5">
+            <div class="dq-result-card">
+                <div class="dq-result-title">Formule Recommandée</div>
+                <div class="dq-result-package" id="res-package-name">Package Name</div>
+                <ul class="dq-features-list" id="res-features">
+                    <!-- Features -->
+                </ul>
+                <div class="dq-result-price" id="res-price">0€</div>
+
+                <div class="dq-cta-container">
+                    <a href="#contact" class="dq-btn-cta dq-btn-primary">Contacter un conseiller</a>
+                    <a href="#pricing-table" class="dq-btn-cta dq-btn-secondary">Voir le tableau complet</a>
+                </div>
+                <button class="dq-btn-restart" id="dq-restart">Recommencer le questionnaire</button>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="dq-controls" id="dq-controls">
+            <button class="dq-btn dq-btn-prev" id="dq-prev">Retour</button>
+            <button class="dq-btn dq-btn-next" id="dq-next" disabled>Suivant</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const state = {
+            step: 1,
+            financing: null,
+            format: null,
+            mentions: null,
+            ss4: null
+        };
+
+        const config = {
+            formats: {
+                elearning_basic: { label: "100% E-learning (Autonomie)", desc: "Formation à votre rythme, sans Tuteur.", cpf: false, diplomant: false },
+                elearning_tutor: { label: "E-learning + Tuteur (Premium)", desc: "Suivi personnalisé pour réussir votre Titre Pro.", cpf: true, diplomant: true },
+                hybrid: { label: "Hybride (En ligne + Classe)", desc: "Le meilleur des deux mondes (Non éligible CPF).", cpf: false, diplomant: true },
+                fulltime: { label: "Présentiel (Temps plein)", desc: "Immersion totale en centre de formation.", cpf: true, diplomant: true }
+            },
+            packages: {
+                "elearning_basic_no_mentions": { base: 3400, name: "E-learning Sans Mentions", features: ["210h de formation", "Sans Titre Pro", "Certifications Sans Mentions"] },
+                "elearning_basic_with_mentions": { base: 3950, name: "E-learning Avec Mentions", features: ["210h de formation", "Sans Titre Pro", "Mentions DPE & Amiante Incluses"] },
+                "elearning_tutor": { base: 4450, name: "E-learning + Accompagnement", features: ["210h + Tutorat", "Titre Pro RNCP Inclus", "Mentions Incluses"] },
+                "hybrid": { base: 5950, name: "Hybride (E-learning + Classe)", features: ["350h de formation", "12 jours de classe", "Titre Pro RNCP Inclus", "Mentions Incluses"] },
+                "fulltime_no_mentions": { base: 6900, name: "Full Time Sans Mentions", features: ["364h en centre", "Titre Pro RNCP Inclus", "SS4 Opérateur Inclus"] },
+                "fulltime_with_mentions": { base: 8160, name: "Full Time Avec Mentions", features: ["399h en centre", "Titre Pro RNCP Inclus", "Mentions Incluses", "SS4 Opérateur Inclus"] }
+            }
+        };
+
+        const els = {
+            progressBar: document.getElementById('dq-progress'),
+            steps: document.querySelectorAll('.dq-step'),
+            prevBtn: document.getElementById('dq-prev'),
+            nextBtn: document.getElementById('dq-next'),
+            controls: document.getElementById('dq-controls'),
+            optFormat: document.getElementById('opt-format'),
+            getAllOptions: () => document.querySelectorAll('.dq-option-card'),
+            resName: document.getElementById('res-package-name'),
+            resPrice: document.getElementById('res-price'),
+            resFeatures: document.getElementById('res-features')
+        };
+
+        // Initialize interactions for static cards
+        setupOptionListeners(els.getAllOptions());
+
+        function setupOptionListeners(nodelist) {
+            nodelist.forEach(card => {
+                // Remove old listeners by cloning
+                const newCard = card.cloneNode(true);
+                card.parentNode.replaceChild(newCard, card);
+
+                newCard.addEventListener('click', function () {
+                    const parent = this.closest('.dq-options');
+                    parent.querySelectorAll('.dq-option-card').forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+
+                    const val = this.dataset.value;
+                    const step = parseInt(this.closest('.dq-step').dataset.step);
+
+                    if (step === 1) {
+                        if (state.financing !== val) {
+                            // Reset downstream if changed
+                            state.format = null;
+                            state.mentions = null;
+                            state.ss4 = null;
+                        }
+                        state.financing = val;
+                    }
+                    if (step === 2) {
+                        // If format changes, reset mentions/ss4
+                        if (state.format !== val) {
+                            state.mentions = null;
+                            state.ss4 = null;
+                        }
+                        state.format = val;
+                    }
+                    if (step === 3) state.mentions = val;
+                    if (step === 4) state.ss4 = val;
+
+                    updateNextButton();
+                });
+            });
+        }
+
+        // Navigation
+        const restartBtn = document.getElementById('dq-restart');
+        if (restartBtn) {
+            restartBtn.addEventListener('click', () => {
+                // Reset State
+                state.step = 1;
+                state.financing = null;
+                state.format = null;
+                state.mentions = null;
+                state.ss4 = null;
+
+                // Reset Visuals
+                document.querySelectorAll('.dq-option-card').forEach(c => c.classList.remove('selected'));
+
+                // Go to Step 1
+                goToStep(1);
+            });
+        }
+
+        els.nextBtn.addEventListener('click', () => {
+            if (state.step === 1) {
+                renderFormatOptions();
+                goToStep(2);
+            } else if (state.step === 2) {
+                handlePostFormat();
+            } else if (state.step === 3) {
+                handlePostMentions();
+            } else if (state.step === 4) {
+                calculateAndShowResult();
+                goToStep(5);
+            }
+        });
+
+        els.prevBtn.addEventListener('click', () => {
+            if (state.step === 5) {
+                if (state.ss4) {
+                    if (state.format === 'fulltime') {
+                        goToStep(3);
+                    } else {
+                        goToStep(4);
+                    }
+                } else {
+                    goToStep(4);
+                }
+            } else if (state.step === 4) {
+                if (state.format === 'elearning_basic' || state.format === 'fulltime') {
+                    goToStep(3); // Came from Mentions
+                } else {
+                    goToStep(2); // Came from Format (skipped Mentions)
+                }
+            } else if (state.step === 3) {
+                goToStep(2);
+            } else {
+                goToStep(state.step - 1);
+            }
+        });
+
+        function goToStep(n) {
+            state.step = n;
+
+            els.steps.forEach(s => s.classList.remove('active'));
+            document.querySelector(`.dq-step[data-step="${n}"]`).classList.add('active');
+
+            // Sync Visual Selection
+            syncVisualSelection(n);
+
+            // Progress
+            const progress = ((n - 1) / 4) * 100;
+            els.progressBar.style.width = `${progress}%`;
+
+            // Buttons
+            els.prevBtn.style.visibility = n === 1 ? 'hidden' : 'visible';
+            if (n === 5) els.controls.style.display = 'none';
+            else els.controls.style.display = 'flex';
+
+            updateNextButton();
+        }
+
+        function syncVisualSelection(step) {
+            const stepEl = document.querySelector(`.dq-step[data-step="${step}"]`);
+            if (!stepEl) return;
+
+            let val = null;
+            if (step === 1) val = state.financing;
+            if (step === 2) val = state.format;
+            if (step === 3) val = state.mentions;
+            if (step === 4) val = state.ss4;
+
+            stepEl.querySelectorAll('.dq-option-card').forEach(c => {
+                const selected = c.dataset.value === val;
+                c.classList.toggle('selected', selected);
+            });
+        }
+
+        function updateNextButton() {
+            let valid = false;
+            if (state.step === 1 && state.financing) valid = true;
+            if (state.step === 2 && state.format) valid = true;
+            if (state.step === 3 && state.mentions) valid = true;
+            if (state.step === 4 && state.ss4) valid = true;
+            els.nextBtn.disabled = !valid;
+        }
+
+        // Logic Generators
+        function renderFormatOptions() {
+            els.optFormat.innerHTML = '';
+            const isCPF = state.financing === 'cpf';
+
+            let optionsData = [];
+            // CPF Filters
+            if (!isCPF) {
+                optionsData.push(['elearning_basic', config.formats.elearning_basic]);
+                optionsData.push(['hybrid', config.formats.hybrid]);
+            }
+            optionsData.push(['elearning_tutor', config.formats.elearning_tutor]);
+            optionsData.push(['fulltime', config.formats.fulltime]);
+
+            // Create Elements
+            optionsData.forEach(([key, data]) => {
+                const card = document.createElement('div');
+                card.className = 'dq-option-card';
+                card.dataset.value = key;
+                card.innerHTML = `
+                    <div class="dq-radio"></div>
+                    <div class="dq-option-text">
+                        <span class="dq-option-title">${data.label}</span>
+                        <span class="dq-option-desc">${data.desc}</span>
+                    </div>
+                `;
+                els.optFormat.appendChild(card);
+            });
+
+            // Attach Listeners
+            setupOptionListeners(els.optFormat.querySelectorAll('.dq-option-card'));
+
+            // Validate State
+            const currentFormat = state.format;
+            const isValid = optionsData.some(([k]) => k === currentFormat);
+            if (!isValid) {
+                state.format = null; // Reset if not in new list
+            }
+        }
+
+        function handlePostFormat() {
+            const fmt = state.format;
+            if (fmt === 'elearning_basic' || fmt === 'fulltime') {
+                // Ask Mentions
+                goToStep(3);
+            } else {
+                // elearning_tutor or hybrid -> Include Mentions automatic
+                state.mentions = 'with_mentions'; // Implied
+                goToStep(4);
+            }
+        }
+
+        function handlePostMentions() {
+            if (state.format === 'fulltime') {
+                // Fulltime includes SS4.
+                state.ss4 = 'yes'; // Included
+                calculateAndShowResult();
+                goToStep(5);
+            } else {
+                goToStep(4);
+            }
+        }
+
+        function calculateAndShowResult() {
+            let pkgKey = '';
+            if (state.format === 'elearning_basic') {
+                pkgKey = state.mentions === 'with_mentions' ? 'elearning_basic_with_mentions' : 'elearning_basic_no_mentions';
+            } else if (state.format === 'elearning_tutor') {
+                pkgKey = 'elearning_tutor';
+            } else if (state.format === 'hybrid') {
+                pkgKey = 'hybrid';
+            } else if (state.format === 'fulltime') {
+                pkgKey = state.mentions === 'with_mentions' ? 'fulltime_with_mentions' : 'fulltime_no_mentions';
+            }
+
+            const pkgData = config.packages[pkgKey];
+            let price = pkgData.base;
+            let features = [...pkgData.features];
+
+            if (state.ss4 === 'yes' && state.format !== 'fulltime') {
+                price += 490;
+                features.push("Module SS4 Opérateur (+490€)");
+            }
+
+            els.resName.textContent = pkgData.name;
+            els.resPrice.textContent = price.toLocaleString('fr-FR') + ' €';
+            els.resFeatures.innerHTML = features.map(f => `<li><span class="dq-check-icon">✓</span> ${f}</li>`).join('');
+        }
+    });
+</script>
