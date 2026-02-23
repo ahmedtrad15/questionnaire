@@ -126,6 +126,17 @@
         margin-top: 0;
     }
 
+    /* Section Label */
+    .dq-section-label {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--dq-accent);
+        font-weight: 600;
+        margin-bottom: 8px;
+        text-align: center;
+    }
+
     /* Options Grid */
     .dq-options {
         display: flex;
@@ -163,8 +174,35 @@
     .dq-option-card.selected {
         border-color: var(--dq-primary);
         background-color: #f0f8ff;
-        /* Light blue tint matching var(--dq-primary) hue roughly */
         box-shadow: 0 0 0 1px var(--dq-primary) inset;
+    }
+
+    /* Soft / unsure option styling */
+    .dq-option-card.dq-option-soft {
+        border-style: dashed;
+        border-color: #cbd5e1;
+        background: #fafbfc;
+    }
+
+    .dq-option-card.dq-option-soft:hover {
+        border-color: var(--dq-accent);
+    }
+
+    .dq-option-card.dq-option-soft.selected {
+        border-color: var(--dq-accent);
+        border-style: solid;
+        background: #f0fffe;
+        box-shadow: 0 0 0 1px var(--dq-accent) inset;
+    }
+
+    .dq-option-card.dq-option-soft .dq-option-title {
+        color: #64748b;
+        font-weight: 500;
+        font-style: italic;
+    }
+
+    .dq-option-card.dq-option-soft.selected .dq-radio::after {
+        background: var(--dq-accent);
     }
 
     .dq-radio {
@@ -203,6 +241,185 @@
         font-size: 0.9rem;
         color: #64748b;
         margin-top: 4px;
+    }
+
+    /* SS4 Tooltip */
+    .dq-tooltip-wrapper {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .dq-tooltip-trigger {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        color: var(--dq-accent);
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: help;
+        text-decoration: none;
+        border-bottom: 1px dashed var(--dq-accent);
+        padding-bottom: 1px;
+        transition: color 0.2s;
+    }
+
+    .dq-tooltip-trigger:hover {
+        color: var(--dq-primary);
+    }
+
+    .dq-tooltip-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--dq-accent);
+        color: white;
+        font-size: 0.7rem;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    .dq-tooltip-content {
+        display: none;
+        position: absolute;
+        bottom: calc(100% + 10px);
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--dq-dark);
+        color: white;
+        padding: 14px 18px;
+        border-radius: 10px;
+        font-size: 0.82rem;
+        line-height: 1.5;
+        width: 300px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        z-index: 100;
+        pointer-events: none;
+    }
+
+    .dq-tooltip-content::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 8px solid transparent;
+        border-top-color: var(--dq-dark);
+    }
+
+    .dq-tooltip-trigger:hover+.dq-tooltip-content,
+    .dq-tooltip-trigger:focus+.dq-tooltip-content {
+        display: block;
+    }
+
+    /* CPF Conditional Field */
+    .dq-conditional-field {
+        margin-top: 20px;
+        padding: 20px;
+        background: linear-gradient(135deg, #f0f8ff, #f8fafc);
+        border: 1px solid #c8ddf0;
+        border-radius: 12px;
+        animation: fadeIn 0.4s ease;
+    }
+
+    .dq-conditional-field label {
+        display: block;
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: var(--dq-dark);
+        margin-bottom: 12px;
+    }
+
+    .dq-cpf-question {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+        flex-wrap: wrap;
+    }
+
+    .dq-cpf-question span {
+        font-weight: 500;
+        font-size: 0.95rem;
+        color: var(--dq-dark);
+    }
+
+    .dq-toggle-group {
+        display: flex;
+        gap: 8px;
+    }
+
+    .dq-toggle-btn {
+        padding: 8px 20px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        background: white;
+        font-family: inherit;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        color: #64748b;
+        transition: all 0.2s;
+    }
+
+    .dq-toggle-btn:hover {
+        border-color: var(--dq-primary);
+        color: var(--dq-primary);
+    }
+
+    .dq-toggle-btn.active {
+        background: var(--dq-primary);
+        border-color: var(--dq-primary);
+        color: white;
+    }
+
+    .dq-cpf-amount-wrapper {
+        display: none;
+        animation: fadeIn 0.4s ease;
+    }
+
+    .dq-cpf-amount-wrapper.visible {
+        display: block;
+    }
+
+    .dq-cpf-amount-wrapper label {
+        font-size: 0.9rem;
+        color: #475569;
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+
+    .dq-input-field {
+        width: 100%;
+        max-width: 280px;
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        font-family: inherit;
+        font-size: 1rem;
+        color: var(--dq-dark);
+        transition: border-color 0.2s;
+        outline: none;
+    }
+
+    .dq-input-field:focus {
+        border-color: var(--dq-accent);
+        box-shadow: 0 0 0 3px rgba(18, 169, 175, 0.1);
+    }
+
+    .dq-input-field::placeholder {
+        color: #94a3b8;
+    }
+
+    .dq-input-hint {
+        font-size: 0.8rem;
+        color: #94a3b8;
+        margin-top: 6px;
+        font-style: italic;
     }
 
     /* Controls */
@@ -460,6 +677,15 @@
         color: #475569;
         font-size: 0.9rem;
     }
+
+    /* Divider within step */
+    .dq-divider {
+        width: 100%;
+        height: 1px;
+        background: #e2e8f0;
+        margin: 12px 0;
+        border: none;
+    }
 </style>
 
 <div id="digi-questionnaire-section" class="dq-section">
@@ -492,13 +718,38 @@
                             <span class="dq-option-desc">Solde CPF disponible</span>
                         </div>
                     </div>
+                    <div class="dq-option-card dq-option-soft" data-value="dunno_financing">
+                        <div class="dq-radio"></div>
+                        <div class="dq-option-text">
+                            <span class="dq-option-title">Je ne sais pas encore</span>
+                            <span class="dq-option-desc">Nous vous conseillerons sur les options possibles</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CPF Conditional Field -->
+                <div class="dq-conditional-field" id="dq-cpf-field" style="display:none;">
+                    <div class="dq-cpf-question">
+                        <span>Disposez-vous d'un budget CPF ?</span>
+                        <div class="dq-toggle-group">
+                            <button type="button" class="dq-toggle-btn" data-cpf="yes" id="dq-cpf-yes">Oui</button>
+                            <button type="button" class="dq-toggle-btn" data-cpf="no" id="dq-cpf-no">Non</button>
+                        </div>
+                    </div>
+                    <div class="dq-cpf-amount-wrapper" id="dq-cpf-amount-wrapper">
+                        <label for="dq-cpf-amount">Indiquez le montant disponible (si vous le connaissez)</label>
+                        <input type="number" class="dq-input-field" id="dq-cpf-amount" placeholder="Ex : 2 500 €"
+                            min="0" step="100">
+                        <p class="dq-input-hint">Ce montant est indicatif et nous aide à mieux vous orienter.</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Step 2: Format -->
+        <!-- Step 2: Format / Modalités de formation -->
         <div class="dq-step" data-step="2">
             <div class="dq-question">
+                <div class="dq-section-label">Modalités de formation</div>
                 <h3>Quelle méthode d'apprentissage préférez-vous ?</h3>
                 <div class="dq-options" id="opt-format">
                     <!-- Dynamic Options -->
@@ -533,6 +784,20 @@
         <div class="dq-step" data-step="4">
             <div class="dq-question">
                 <h3>Option complémentaire</h3>
+                <div style="text-align:center; margin-bottom:18px;">
+                    <div class="dq-tooltip-wrapper">
+                        <span class="dq-tooltip-trigger" tabindex="0">
+                            <span class="dq-tooltip-icon">?</span>
+                            Qu'est-ce que le SS4 ?
+                        </span>
+                        <div class="dq-tooltip-content">
+                            <strong>SS4 — Sous-Section 4</strong><br>
+                            La formation SS4 « Opérateur de chantier » est obligatoire pour intervenir à proximité de
+                            matériaux contenant de l'amiante. Elle vous permet d'élargir votre champ d'activité en toute
+                            conformité réglementaire.
+                        </div>
+                    </div>
+                </div>
                 <div class="dq-options" id="opt-ss4">
                     <div class="dq-option-card" data-value="no">
                         <div class="dq-radio"></div>
@@ -547,37 +812,69 @@
                             <span class="dq-option-desc">Formation Amiante Sous-Section 4 (+490€)</span>
                         </div>
                     </div>
+                    <div class="dq-option-card dq-option-soft" data-value="dunno_ss4">
+                        <div class="dq-radio"></div>
+                        <div class="dq-option-text">
+                            <span class="dq-option-title">Je ne sais pas ce que c'est</span>
+                            <span class="dq-option-desc">Nous vous l'expliquerons en détail</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Step 5: Situation -->
+        <!-- Step 5: Situation professionnelle -->
         <div class="dq-step" data-step="5">
             <div class="dq-question">
+                <div class="dq-section-label">Situation professionnelle</div>
                 <h3>Quelle est votre situation actuelle ?</h3>
-                <div class="dq-options grid">
-                    <div class="dq-option-card" data-value="employee">
+                <div class="dq-options grid" id="opt-situation">
+                    <div class="dq-option-card" data-value="salarie">
                         <div class="dq-radio"></div>
                         <div class="dq-option-text">
-                            <span class="dq-option-title">Salarié (CDI/CDD)</span>
+                            <span class="dq-option-title">Salarié(e)</span>
                         </div>
                     </div>
-                    <div class="dq-option-card" data-value="jobseeker">
+                    <div class="dq-option-card" data-value="independant">
                         <div class="dq-radio"></div>
                         <div class="dq-option-text">
-                            <span class="dq-option-title">Demandeur d'Emploi</span>
+                            <span class="dq-option-title">Indépendant / à votre compte</span>
                         </div>
                     </div>
-                    <div class="dq-option-card" data-value="freelance">
+                    <div class="dq-option-card" data-value="micro">
                         <div class="dq-radio"></div>
                         <div class="dq-option-text">
-                            <span class="dq-option-title">Indépendant / Chef d'Entrep.</span>
+                            <span class="dq-option-title">Micro-entrepreneur</span>
                         </div>
                     </div>
-                    <div class="dq-option-card" data-value="other">
+                    <div class="dq-option-card" data-value="chef">
                         <div class="dq-radio"></div>
                         <div class="dq-option-text">
-                            <span class="dq-option-title">Autre / Particulier</span>
+                            <span class="dq-option-title">Chef d'entreprise</span>
+                        </div>
+                    </div>
+                    <div class="dq-option-card" data-value="demandeur">
+                        <div class="dq-radio"></div>
+                        <div class="dq-option-text">
+                            <span class="dq-option-title">Demandeur d'emploi</span>
+                        </div>
+                    </div>
+                    <div class="dq-option-card" data-value="reconversion">
+                        <div class="dq-radio"></div>
+                        <div class="dq-option-text">
+                            <span class="dq-option-title">En reconversion</span>
+                        </div>
+                    </div>
+                    <div class="dq-option-card" data-value="autre">
+                        <div class="dq-radio"></div>
+                        <div class="dq-option-text">
+                            <span class="dq-option-title">Autre</span>
+                        </div>
+                    </div>
+                    <div class="dq-option-card dq-option-soft" data-value="dunno_situation">
+                        <div class="dq-radio"></div>
+                        <div class="dq-option-text">
+                            <span class="dq-option-title">Je ne sais pas encore / en réflexion</span>
                         </div>
                     </div>
                 </div>
@@ -644,23 +941,29 @@
             mentions: null,
             ss4: null,
             situation: null,
-            horizon: null
+            horizon: null,
+            cpfBudget: null,    // 'yes' | 'no' | null
+            cpfAmount: null     // numeric or null
         };
 
         const config = {
             formats: {
-                elearning_basic: { label: "100% E-learning (Autonomie)", desc: "Formation à votre rythme, sans Tuteur.", cpf: false, diplomant: false },
-                elearning_tutor: { label: "E-learning + Tuteur (Premium)", desc: "Suivi personnalisé pour réussir votre Titre Pro.", cpf: true, diplomant: true },
-                hybrid: { label: "Hybride (En ligne + Classe)", desc: "Le meilleur des deux mondes (Non éligible CPF).", cpf: false, diplomant: true },
-                fulltime: { label: "Présentiel (Temps plein)", desc: "Immersion totale en centre de formation.", cpf: true, diplomant: true }
+                classe_virtuelle: { label: "Classe virtuelle", desc: "Formation en direct à distance avec un formateur.", cpf: true, diplomant: true },
+                elearning_basic: { label: "E-learning", desc: "Formation 100% en ligne, à votre rythme.", cpf: false, diplomant: false },
+                elearning_tutor: { label: "E-learning + Tutorat", desc: "Formation en ligne avec suivi personnalisé par un tuteur.", cpf: true, diplomant: true },
+                hybrid: { label: "Hybride (présentiel + distanciel)", desc: "Le meilleur des deux mondes, en ligne et en centre.", cpf: false, diplomant: true },
+                fulltime: { label: "Présentiel", desc: "Immersion totale en centre de formation.", cpf: true, diplomant: true },
+                dunno_format: { label: "Je ne sais pas encore, vous m'expliquerez", desc: "Nous vous conseillerons la modalité la plus adaptée.", cpf: null, diplomant: null, isSoft: true }
             },
             packages: {
                 "elearning_basic_no_mentions": { base: 3400, name: "E-learning Sans Mentions", features: ["210h de formation", "Sans Titre Pro", "Certifications Sans Mentions"] },
                 "elearning_basic_with_mentions": { base: 3950, name: "E-learning Avec Mentions", features: ["210h de formation", "Sans Titre Pro", "Mentions DPE & Amiante Incluses"] },
                 "elearning_tutor": { base: 4450, name: "E-learning + Accompagnement", features: ["210h + Tutorat", "Titre Pro RNCP Inclus", "Mentions Incluses"] },
+                "classe_virtuelle": { base: 4950, name: "Classe Virtuelle", features: ["210h de formation", "Sessions en direct", "Titre Pro RNCP Inclus", "Mentions Incluses"] },
                 "hybrid": { base: 5950, name: "Hybride (E-learning + Classe)", features: ["350h de formation", "12 jours de classe", "Titre Pro RNCP Inclus", "Mentions Incluses"] },
-                "fulltime_no_mentions": { base: 6900, name: "Full Time Sans Mentions", features: ["364h en centre", "Titre Pro RNCP Inclus", "SS4 Opérateur Inclus"] },
-                "fulltime_with_mentions": { base: 8160, name: "Full Time Avec Mentions", features: ["399h en centre", "Titre Pro RNCP Inclus", "Mentions Incluses", "SS4 Opérateur Inclus"] }
+                "fulltime_no_mentions": { base: 6900, name: "Présentiel Sans Mentions", features: ["364h en centre", "Titre Pro RNCP Inclus", "SS4 Opérateur Inclus"] },
+                "fulltime_with_mentions": { base: 8160, name: "Présentiel Avec Mentions", features: ["399h en centre", "Titre Pro RNCP Inclus", "Mentions Incluses", "SS4 Opérateur Inclus"] },
+                "dunno_format": { base: null, name: "Formule à définir ensemble", features: ["Modalité à déterminer", "Accompagnement personnalisé", "Devis sur mesure"] }
             }
         };
 
@@ -671,14 +974,54 @@
             nextBtn: document.getElementById('dq-next'),
             controls: document.getElementById('dq-controls'),
             optFormat: document.getElementById('opt-format'),
+            cpfField: document.getElementById('dq-cpf-field'),
+            cpfYes: document.getElementById('dq-cpf-yes'),
+            cpfNo: document.getElementById('dq-cpf-no'),
+            cpfAmountWrapper: document.getElementById('dq-cpf-amount-wrapper'),
+            cpfAmountInput: document.getElementById('dq-cpf-amount'),
             getAllOptions: () => document.querySelectorAll('.dq-option-card'),
-            resName: document.getElementById('res-package-name'),
-            resPrice: document.getElementById('res-price'),
-            resFeatures: document.getElementById('res-features')
         };
 
         // Initialize interactions for static cards
         setupOptionListeners(els.getAllOptions());
+
+        // CPF Toggle Buttons
+        els.cpfYes.addEventListener('click', () => {
+            state.cpfBudget = 'yes';
+            els.cpfYes.classList.add('active');
+            els.cpfNo.classList.remove('active');
+            els.cpfAmountWrapper.classList.add('visible');
+        });
+
+        els.cpfNo.addEventListener('click', () => {
+            state.cpfBudget = 'no';
+            els.cpfNo.classList.add('active');
+            els.cpfYes.classList.remove('active');
+            els.cpfAmountWrapper.classList.remove('visible');
+            state.cpfAmount = null;
+            els.cpfAmountInput.value = '';
+        });
+
+        els.cpfAmountInput.addEventListener('input', () => {
+            const val = parseFloat(els.cpfAmountInput.value);
+            state.cpfAmount = isNaN(val) ? null : val;
+        });
+
+        function toggleCpfField() {
+            // Show CPF conditional field only when "cpf" is selected
+            if (state.financing === 'cpf') {
+                els.cpfField.style.display = 'block';
+            } else {
+                els.cpfField.style.display = 'none';
+                // Reset CPF sub-state if not relevant
+                state.cpfBudget = null;
+                state.cpfAmount = null;
+                els.cpfYes.classList.remove('active');
+                els.cpfNo.classList.remove('active');
+                els.cpfAmountWrapper.classList.remove('visible');
+                els.cpfAmountInput.value = '';
+            }
+        }
 
         function setupOptionListeners(nodelist) {
             nodelist.forEach(card => {
@@ -702,6 +1045,7 @@
                             state.ss4 = null;
                         }
                         state.financing = val;
+                        toggleCpfField();
                     }
                     if (step === 2) {
                         // If format changes, reset mentions/ss4
@@ -733,9 +1077,16 @@
                 state.ss4 = null;
                 state.situation = null;
                 state.horizon = null;
+                state.cpfBudget = null;
+                state.cpfAmount = null;
 
                 // Reset Visuals
                 document.querySelectorAll('.dq-option-card').forEach(c => c.classList.remove('selected'));
+                els.cpfField.style.display = 'none';
+                els.cpfYes.classList.remove('active');
+                els.cpfNo.classList.remove('active');
+                els.cpfAmountWrapper.classList.remove('visible');
+                els.cpfAmountInput.value = '';
 
                 // Go to Step 1
                 goToStep(1);
@@ -769,6 +1120,8 @@
                 // Determine if we came from 4 (SS4) or 3 (Mentions -> Fulltime skip SS4)
                 if (state.format === 'fulltime') {
                     goToStep(3); // Skipped SS4
+                } else if (state.format === 'dunno_format') {
+                    goToStep(2); // Skipped both Mentions and SS4
                 } else {
                     goToStep(4);
                 }
@@ -841,18 +1194,25 @@
             const isCPF = state.financing === 'cpf';
 
             let optionsData = [];
-            // CPF Filters
+
+            // Build available options based on financing
             if (!isCPF) {
                 optionsData.push(['elearning_basic', config.formats.elearning_basic]);
+            }
+            optionsData.push(['classe_virtuelle', config.formats.classe_virtuelle]);
+            optionsData.push(['elearning_tutor', config.formats.elearning_tutor]);
+            if (!isCPF) {
                 optionsData.push(['hybrid', config.formats.hybrid]);
             }
-            optionsData.push(['elearning_tutor', config.formats.elearning_tutor]);
             optionsData.push(['fulltime', config.formats.fulltime]);
+
+            // Always add the "don't know yet" option last
+            optionsData.push(['dunno_format', config.formats.dunno_format]);
 
             // Create Elements
             optionsData.forEach(([key, data]) => {
                 const card = document.createElement('div');
-                card.className = 'dq-option-card';
+                card.className = 'dq-option-card' + (data.isSoft ? ' dq-option-soft' : '');
                 card.dataset.value = key;
                 card.innerHTML = `
                     <div class="dq-radio"></div>
@@ -877,11 +1237,16 @@
 
         function handlePostFormat() {
             const fmt = state.format;
-            if (fmt === 'elearning_basic' || fmt === 'fulltime') {
+            if (fmt === 'dunno_format') {
+                // Skip mentions and SS4 — go directly to situation
+                state.mentions = null;
+                state.ss4 = null;
+                goToStep(5);
+            } else if (fmt === 'elearning_basic' || fmt === 'fulltime') {
                 // Ask Mentions
                 goToStep(3);
             } else {
-                // elearning_tutor or hybrid -> Include Mentions automatic
+                // elearning_tutor, classe_virtuelle, hybrid -> Include Mentions automatic
                 state.mentions = 'with_mentions'; // Implied
                 goToStep(4);
             }
@@ -898,15 +1263,41 @@
         }
 
         function calculateAndShowResult() {
+            const fmt = state.format;
+
+            // Handle "don't know" format — show a contact-oriented result
+            if (fmt === 'dunno_format') {
+                const container = document.getElementById('dq-results-container');
+                container.innerHTML = '';
+                const pkg = config.packages['dunno_format'];
+                container.innerHTML = `
+                    <div class="dq-result-card recommended" style="grid-column: 1 / -1;">
+                        <div class="dq-result-title">Votre diagnostic</div>
+                        <div class="dq-result-package">${pkg.name}</div>
+                        <ul class="dq-features-list">
+                            ${pkg.features.map(f => `<li><span class="dq-check-icon">✓</span> ${f}</li>`).join('')}
+                        </ul>
+                        <div class="dq-result-price" style="font-size:1.4rem; color: var(--dq-accent);">Devis sur mesure</div>
+                        <div class="dq-cta-container" style="margin-top:auto;">
+                            <a href="#contact" class="dq-btn-cta dq-btn-primary">Être rappelé(e) gratuitement</a>
+                            <a href="#contact" class="dq-btn-cta dq-btn-secondary">Voir toutes les formations</a>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
             // Determine Base Package
             let pkgKey = '';
-            if (state.format === 'elearning_basic') {
+            if (fmt === 'elearning_basic') {
                 pkgKey = state.mentions === 'with_mentions' ? 'elearning_basic_with_mentions' : 'elearning_basic_no_mentions';
-            } else if (state.format === 'elearning_tutor') {
+            } else if (fmt === 'elearning_tutor') {
                 pkgKey = 'elearning_tutor';
-            } else if (state.format === 'hybrid') {
+            } else if (fmt === 'classe_virtuelle') {
+                pkgKey = 'classe_virtuelle';
+            } else if (fmt === 'hybrid') {
                 pkgKey = 'hybrid';
-            } else if (state.format === 'fulltime') {
+            } else if (fmt === 'fulltime') {
                 pkgKey = state.mentions === 'with_mentions' ? 'fulltime_with_mentions' : 'fulltime_no_mentions';
             }
 
@@ -914,7 +1305,8 @@
             let upgradeKey = null;
             if (pkgKey === 'elearning_basic_no_mentions') upgradeKey = 'elearning_basic_with_mentions';
             else if (pkgKey === 'elearning_basic_with_mentions') upgradeKey = 'elearning_tutor';
-            else if (pkgKey === 'elearning_tutor') upgradeKey = 'hybrid';
+            else if (pkgKey === 'elearning_tutor') upgradeKey = 'classe_virtuelle';
+            else if (pkgKey === 'classe_virtuelle') upgradeKey = 'hybrid';
             else if (pkgKey === 'hybrid') upgradeKey = 'fulltime_no_mentions';
             else if (pkgKey === 'fulltime_no_mentions') upgradeKey = 'fulltime_with_mentions';
             else upgradeKey = null; // Top tier already selected
@@ -929,16 +1321,20 @@
                 let features = [...pkg.features];
 
                 // Add SS4 cost logic if selected and Applicable
-                // Assume Upgrade inherits SS4 preference unless it's Fulltime (where included)
                 const isFullTime = key.includes('fulltime');
 
                 if (state.ss4 === 'yes' && !isFullTime) {
                     price += 490;
                     features.push("Module SS4 Opérateur (+490€)");
-                } else if (isFullTime && state.ss4 === 'yes') {
-                    // It's included in fulltime features by default definition in config??
-                    // Let's check config: yes, "SS4 Opérateur Inclus" is strictly in fulltime text.
-                    // No price add.
+                }
+                // "dunno_ss4" treated as no SS4 cost for calculation, noted for advisor
+                if (state.ss4 === 'dunno_ss4' && !isFullTime) {
+                    features.push("Option SS4 — à voir ensemble");
+                }
+
+                // CPF info
+                if (state.financing === 'cpf' && state.cpfBudget === 'yes' && state.cpfAmount && state.cpfAmount > 0) {
+                    features.push(`Budget CPF déclaré : ${state.cpfAmount.toLocaleString('fr-FR')} €`);
                 }
 
                 const title = isUpgrade ? "Le Choix de l'Expert" : "Votre Sélection";
