@@ -592,6 +592,15 @@
         gap: 20px;
     }
 
+    /* Added for format images under modalities step */
+    .dq-format-images img {
+        max-width: 45%;
+        height: auto;
+        margin: 0 5px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
     @media (min-width: 768px) {
         .dq-results-container {
             grid-template-columns: 1fr 1fr;
@@ -690,7 +699,7 @@
 
 <div id="digi-questionnaire-section" class="dq-section">
     <div class="dq-header">
-        <h2>Trouvez Votre Formation</h2>
+        <h2>Tarif de votre formation</h2>
         <p>Répondez à quelques questions pour obtenir votre devis personnalisé</p>
     </div>
 
@@ -753,6 +762,11 @@
                 <h3>Quelle méthode d'apprentissage préférez-vous ?</h3>
                 <div class="dq-options" id="opt-format">
                     <!-- Dynamic Options -->
+                </div>
+                <!-- Images placed just below the modalities/formats question -->
+                <div class="dq-format-images" style="margin-top:20px; text-align:center;">
+                    <img src="https://digivoda.com/wp-content/uploads/2026/02/formation-presentiel.jpg" alt="Illustration modalité 1" class="dq-format-img">
+                    <img src="https://digivoda.com/wp-content/uploads/2026/02/formation-distancielle.jpg" alt="Illustration modalité 2" class="dq-format-img">
                 </div>
             </div>
         </div>
@@ -948,11 +962,11 @@
 
         const config = {
             formats: {
-                classe_virtuelle: { label: "Classe virtuelle", desc: "Formation en direct à distance avec un formateur.", cpf: true, diplomant: true },
+                classe_virtuelle: { label: "Classe virtuelle", desc: "Formation en direct à distance avec un formateur dans la salle de cours, avec d'autres apprenants", cpf: true, diplomant: true },
                 elearning_basic: { label: "E-learning", desc: "Formation 100% en ligne, à votre rythme.", cpf: false, diplomant: false },
-                elearning_tutor: { label: "E-learning + Tutorat", desc: "Formation en ligne avec suivi personnalisé par un tuteur.", cpf: true, diplomant: true },
-                hybrid: { label: "Hybride (présentiel + distanciel)", desc: "Le meilleur des deux mondes, en ligne et en centre.", cpf: false, diplomant: true },
-                fulltime: { label: "Présentiel", desc: "Immersion totale en centre de formation.", cpf: true, diplomant: true },
+                elearning_tutor: { label: "E-learning + Tutorat", desc: "Formation en ligne avec suivi personnalisé par un tuteur Formateur", cpf: true, diplomant: true },
+                hybrid: { label: "Hybride (présentiel + distanciel)", desc: "Le meilleur des deux mondes, en ligne et en centre + E-learning.", cpf: false, diplomant: true },
+                fulltime: { label: "Présentiel", desc: "Immersion totale en centre de formation avec la possibilité certains jours de se connecter à distance à la salle de cours et supports de cours. Très similaire au Hybride", cpf: true, diplomant: true },
                 dunno_format: { label: "Je ne sais pas encore, vous m'expliquerez", desc: "Nous vous conseillerons la modalité la plus adaptée.", cpf: null, diplomant: null, isSoft: true }
             },
             packages: {
